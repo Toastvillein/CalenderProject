@@ -34,4 +34,22 @@ public class CalController {
         return new ResponseEntity<>(calService.findAllCal(),HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/{password}")
+    public ResponseEntity<CalResponseDto> updateCal(
+            @PathVariable Long id,
+            @PathVariable Integer password,
+            @RequestBody CalRequestDto dto
+    ){
+        return new ResponseEntity<>(calService.updateCal(id,password,dto.getName(),dto.getToDo()),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}/{password}")
+    public ResponseEntity<CalResponseDto> deleteCal(
+            @PathVariable Long id,
+            @PathVariable Integer password
+    ){
+        calService.deleteCal(id,password);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

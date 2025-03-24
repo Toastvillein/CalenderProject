@@ -55,6 +55,18 @@ public class CalRepositoryImpl implements CalRepository {
                 "select id,name,password,todo,updatetime from calender ORDER BY 5 DESC",calRowMapperV2());
     }
 
+    @Override
+    public int updateCal(Long id, Integer password, String name, String toDo) {
+        return jdbcTemplate.update(
+                "update calender set name = ?, todo = ? where id = ? and password = ?",
+                name,toDo,id,password);
+    }
+
+    @Override
+    public int deleteCal(Long id, Integer password) {
+        return jdbcTemplate.update("delete from calender where id = ? and password = ?",id,password);
+    }
+
     private RowMapper<Calender> calRowMapperV1(){
         return new RowMapper<Calender>() {
             @Override

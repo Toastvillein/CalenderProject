@@ -14,7 +14,7 @@ public class CalResponseDto {
 
     private Long id;
     private String name;
-    private int password;
+    private Integer password;
     private String toDo;
     private LocalDate updateTime;
 
