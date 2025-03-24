@@ -6,6 +6,7 @@ import com.example.calenderproject.dto.CalRequestDto;
 import com.example.calenderproject.dto.CalResponseDto;
 import com.example.calenderproject.repository.CalRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,4 +39,23 @@ public class CalServiceImpl implements CalService {
     public List<CalResponseDto> findAllCal() {
         return calRepository.findAllCal();
     }
+
+    @Transactional
+    @Override
+    public CalResponseDto updateCal(Long id, Integer password, String name, String toDo) {
+
+        Optional<Calender> calender = calRepository.findCalByID(id);
+
+        int updatedRow = calRepository.updateCal(id,password,name,toDo);
+
+        return new CalResponseDto(calender.orElseThrow());
+    }
+
+    @Override
+    public void deleteCal(Long id, Integer password) {
+        int deletRow = calRepository.deleteCal(id,password);
+
+    }
+
+
 }

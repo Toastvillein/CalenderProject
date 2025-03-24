@@ -13,5 +13,8 @@ public interface CalService {
 
     List<CalResponseDto> findAllCal();
 
+    CalResponseDto updateCal(Long id,Integer password,String name,String toDo);
+
+    void deleteCal(Long id, Integer password);
 
 }
