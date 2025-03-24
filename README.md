@@ -1,4 +1,8 @@
 # CalenderProject
+**ERD**
+![calender](https://github.com/user-attachments/assets/102a3c4f-a5b0-41f8-a3b1-eb1e6476cc07)
+
+**API 명세서**
 | 기능| Method| URL|Request|Response|상태코드|
 | --- | --- | --- | --- | --- | --- |
 | 일정생성 | POST | /api/calenders |Request Body {  "name" : "작성자", "todo" : "할일", "password" : 0000 }|"name" : "작성자", "todo" : "할일", "password" : 0000 }|201 CREATED|
