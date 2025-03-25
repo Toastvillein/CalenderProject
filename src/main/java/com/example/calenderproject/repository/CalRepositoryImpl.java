@@ -38,21 +38,24 @@ public class CalRepositoryImpl implements CalRepository {
         Number key = jdbcInsert.executeAndReturnKey(
                 new MapSqlParameterSource(parameters));
 
+        Long calenderId = key.longValue();
+        jdbcTemplate.update("INSERT INTO users(userid,name,updatetime) VALUES (?,?,?)",calenderId,calender.getName(),LocalDateTime.now());
+        jdbcTemplate.update("update calender set userid = ? where id = ?",key,key);
 
-        return new CalResponseDto(key.longValue(),calender.getName(),calender.getPassword(),calender.getToDo(), LocalDate.now());
+        return new CalResponseDto(key.longValue(),calender.getName(),calender.getPassword(),calender.getToDo(),LocalDateTime.now().toLocalDate());
     }
 
     @Override
     public Optional<Calender> findCalByID(Long id) {
         List<Calender> result = jdbcTemplate.query(
-                "select * from calender where id = ?", calRowMapperV1(),id);
+                "select c.*,u.* from calender c join users u on c.userid=u.userid where c.id = ?", calRowMapperV1(),id);
         return result.stream().findAny();
     }
 
     @Override
     public List<CalResponseDto> findAllCal() {
         return jdbcTemplate.query(
-                "select id,name,password,todo,updatetime from calender ORDER BY 5 DESC",calRowMapperV2());
+                "select c.*,u.* from calender c Join users u on c.userid=u.userid ORDER BY c.updatetime DESC",calRowMapperV2());
     }
 
     @Override
@@ -67,6 +70,12 @@ public class CalRepositoryImpl implements CalRepository {
         return jdbcTemplate.update("delete from calender where id = ? and password = ?",id,password);
     }
 
+    @Override
+    public int updateUser(Long id, String email) {
+        return jdbcTemplate.update(
+                "update users set email = ? where userid = ?",email,id);
+    }
+
     private RowMapper<Calender> calRowMapperV1(){
         return new RowMapper<Calender>() {
             @Override
@@ -76,7 +85,9 @@ public class CalRepositoryImpl implements CalRepository {
                         rs.getString("name"),
                         rs.getInt("password"),
                         rs.getString("todo"),
-                        rs.getTimestamp("updatetime").toLocalDateTime().toLocalDate());
+                        rs.getTimestamp("updatetime").toLocalDateTime().toLocalDate(),
+                        rs.getString("email")
+                        );
             }
         };
     }
@@ -85,13 +96,14 @@ public class CalRepositoryImpl implements CalRepository {
         return new RowMapper<CalResponseDto>() {
             @Override
             public CalResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new CalResponseDto(
+                 Calender calender= new Calender(
                         rs.getLong("id"),
                         rs.getString("name"),
                         rs.getInt("password"),
                         rs.getString("todo"),
-                        rs.getTimestamp("updatetime").toLocalDateTime().toLocalDate()
-                );
+                        rs.getTimestamp("updatetime").toLocalDateTime().toLocalDate(),
+                         rs.getString("email"));
+                 return new CalResponseDto(calender);
             }
         };
     }

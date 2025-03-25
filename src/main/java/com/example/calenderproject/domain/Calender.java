@@ -2,9 +2,11 @@ package com.example.calenderproject.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -14,6 +16,8 @@ public class Calender {
     private Integer password;
     private String toDo;
     private LocalDate updateTime;
+    private String email;
+
 
     public Calender(String name,String toDo,Integer password){
         this.name = name;
@@ -21,10 +25,11 @@ public class Calender {
         this.password = password;
     }
 
-    public Calender(String name,String toDo,Integer password,LocalDate updateTime){
+    public Calender(Long id, String name,Integer password,String toDo,LocalDate updateTime){
+        this.id = id;
         this.name = name;
-        this.toDo = toDo;
         this.password = password;
+        this.toDo = toDo;
         this.updateTime = updateTime;
     }
 
@@ -32,6 +37,10 @@ public class Calender {
         this.name = name;
         this.toDo = toDo;
     }
+
+
+
+
 
 
 
