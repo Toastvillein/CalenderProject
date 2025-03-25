@@ -7,4 +7,5 @@ public class CalRequestDto {
     private String name;
     private Integer password;
     private String toDo;
+    private String email;
 }

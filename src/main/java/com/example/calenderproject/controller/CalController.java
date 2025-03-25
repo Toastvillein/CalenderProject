@@ -43,6 +43,14 @@ public class CalController {
         return new ResponseEntity<>(calService.updateCal(id,password,dto.getName(),dto.getToDo()),HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<CalResponseDto> updateUser(
+            @PathVariable Long id,
+            @RequestBody CalRequestDto dto
+    ){
+        return new ResponseEntity<>(calService.updateUser(id,dto.getEmail()),HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}/{password}")
     public ResponseEntity<CalResponseDto> deleteCal(
             @PathVariable Long id,

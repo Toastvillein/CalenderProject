@@ -44,9 +44,9 @@ public class CalServiceImpl implements CalService {
     @Override
     public CalResponseDto updateCal(Long id, Integer password, String name, String toDo) {
 
-        Optional<Calender> calender = calRepository.findCalByID(id);
-
         int updatedRow = calRepository.updateCal(id,password,name,toDo);
+
+        Optional<Calender> calender = calRepository.findCalByID(id);
 
         return new CalResponseDto(calender.orElseThrow());
     }
@@ -55,6 +55,16 @@ public class CalServiceImpl implements CalService {
     public void deleteCal(Long id, Integer password) {
         int deletRow = calRepository.deleteCal(id,password);
 
+    }
+
+    @Override
+    public CalResponseDto updateUser(Long id, String email) {
+
+        int updatedRow = calRepository.updateUser(id,email);
+
+        Optional<Calender> calender = calRepository.findCalByID(id);
+
+        return new CalResponseDto(calender.orElseThrow());
     }
 
 

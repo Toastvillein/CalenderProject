@@ -19,4 +19,6 @@ public interface CalRepository {
     int updateCal(Long id, Integer password,String name,String toDo);
 
     int deleteCal(Long id, Integer password);
+
+    int updateUser(Long id, String email);
 }
