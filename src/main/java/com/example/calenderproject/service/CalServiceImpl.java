@@ -58,9 +58,9 @@ public class CalServiceImpl implements CalService {
     }
 
     @Override
-    public CalResponseDto updateUser(Long id, String email) {
+    public CalResponseDto updateUser(Long id,Integer password ,String email) {
 
-        int updatedRow = calRepository.updateUser(id,email);
+        int updatedRow = calRepository.updateUser(id,password,email);
 
         Optional<Calender> calender = calRepository.findCalByID(id);
 

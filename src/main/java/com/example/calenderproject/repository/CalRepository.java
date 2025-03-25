@@ -20,5 +20,5 @@ public interface CalRepository {
 
     int deleteCal(Long id, Integer password);
 
-    int updateUser(Long id, String email);
+    int updateUser(Long id,Integer password ,String email);
 }
