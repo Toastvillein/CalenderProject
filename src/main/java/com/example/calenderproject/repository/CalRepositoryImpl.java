@@ -3,6 +3,7 @@ package com.example.calenderproject.repository;
 import com.example.calenderproject.domain.Calender;
 import com.example.calenderproject.dto.CalRequestDto;
 import com.example.calenderproject.dto.CalResponseDto;
+import com.example.calenderproject.excption.CustomException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -60,6 +61,10 @@ public class CalRepositoryImpl implements CalRepository {
 
     @Override
     public int updateCal(Long id, Integer password, String name, String toDo) {
+        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM calender WHERE id = ? AND password = ?",Integer.class,id,password);
+        if (count!=1){
+            throw new CustomException("id나 password가 틀렸습니다.");
+        }
         return jdbcTemplate.update(
                 "update calender set name = ?, todo = ? where id = ? and password = ?",
                 name,toDo,id,password);
@@ -67,11 +72,19 @@ public class CalRepositoryImpl implements CalRepository {
 
     @Override
     public int deleteCal(Long id, Integer password) {
+        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM calender WHERE id = ? AND password = ?",Integer.class,id,password);
+        if (count!=1){
+            throw new CustomException("id나 password가 틀렸습니다.");
+        }
         return jdbcTemplate.update("delete from calender where id = ? and password = ?",id,password);
     }
 
     @Override
-    public int updateUser(Long id, String email) {
+    public int updateUser(Long id,Integer password ,String email) {
+        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM calender WHERE id = ? AND password = ?",Integer.class,id,password);
+        if (count!=1){
+            throw new CustomException("id나 password가 틀렸습니다.");
+        }
         return jdbcTemplate.update(
                 "update users set email = ? where userid = ?",email,id);
     }

@@ -17,6 +17,6 @@ public interface CalService {
 
     void deleteCal(Long id, Integer password);
 
-    CalResponseDto updateUser(Long id, String email);
+    CalResponseDto updateUser(Long id,Integer password ,String email);
 
 }
